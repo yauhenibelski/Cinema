@@ -3,17 +3,17 @@ import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class IsAdminGuard implements CanActivate {
-	canActivate(context: ExecutionContext): boolean {
-		const request: Request & { user?: User } = context
-			.switchToHttp()
-			.getRequest();
+    canActivate(context: ExecutionContext): boolean {
+        const request: Request & { user?: User } = context
+            .switchToHttp()
+            .getRequest();
 
-		if ('user' in request) {
-			const { user } = request;
+        if ('user' in request) {
+            const { user } = request;
 
-			return user.isAdmin;
-		}
+            return user.isAdmin;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

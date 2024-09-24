@@ -8,18 +8,19 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-	constructor(
-		configService: ConfigService,
-		@InjectRepository(User) private readonly userRepository: Repository<User>,
-	) {
-		super({
-			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-			ignoreExpiration: true,
-			secretOrKey: configService.get<string>('JWT_SECRET'),
-		});
-	}
+    constructor(
+        configService: ConfigService,
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
+    ) {
+        super({
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            ignoreExpiration: true,
+            secretOrKey: configService.get<string>('JWT_SECRET'),
+        });
+    }
 
-	async validate({ id }: User): Promise<User> {
-		return this.userRepository.findOneBy({ id });
-	}
+    async validate({ id }: User): Promise<User> {
+        return this.userRepository.findOneBy({ id });
+    }
 }
