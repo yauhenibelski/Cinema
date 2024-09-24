@@ -31,8 +31,9 @@ export class AuthController {
 	@UseGuards(AuthGuard('jwt'))
 	@Get('access')
 	async getAccessToken(
-		@Headers() headers: Request & { authorization?: string },
+		@Headers() headers: { authorization?: string },
 	) {
+        console.log(headers)
 		return this.authService.getAccessToken(headers['authorization']);
 	}
 }

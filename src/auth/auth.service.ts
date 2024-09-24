@@ -19,7 +19,7 @@ export class AuthService {
 
 	async getAccessToken(authorizationHeader: string | undefined) {
 		if (!authorizationHeader) {
-			new BadRequestException('Please provide access token');
+			throw new BadRequestException('Please provide access token');
 		}
 
 		const [, token] = authorizationHeader.split(' ');
