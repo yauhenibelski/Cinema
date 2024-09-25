@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { PasswordDto } from './dto/password.dto';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { EmailDto } from './dto/email.dto';
@@ -56,11 +56,17 @@ export class UserService {
     }
 
     get(email?: string): Promise<User[]> {
-        if(email) {
-            return this.useRepository.findBy({email})
+        const options: FindManyOptions<User> = {
+            select: ['email', 'id', 'favorites'],
+        };
+
+        if (email) {
+            options.where = {
+                email,
+            };
         }
 
-        return this.useRepository.find()
+        return this.useRepository.find(options);
     }
 
     private isAdmin(user: User): boolean {
