@@ -4,6 +4,7 @@ import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { PasswordDto } from './dto/password.dto';
 import { compare, genSalt, hash } from 'bcryptjs';
+import { EmailDto } from './dto/email.dto';
 
 @Injectable()
 export class UserService {
@@ -32,9 +33,26 @@ export class UserService {
             throw new BadRequestException('Wrong password');
         }
         const salt = await genSalt();
-        const password = await hash(newPassword, salt)
+        const password = await hash(newPassword, salt);
 
-        this.useRepository.update(id, {password});
+        this.useRepository.update(id, { password });
+    }
+
+    async updateEmail(
+        { currentEmail, newEmail, id }: EmailDto,
+        ctxUser: User,
+    ): Promise<void> {
+        const user = await this.useRepository.findOneBy({ id });
+
+        if (!user) {
+            throw new BadRequestException('User not found');
+        }
+
+        if (!this.isAdmin(ctxUser) && currentEmail !== user.email) {
+            throw new BadRequestException('Wrong email');
+        }
+
+        this.useRepository.update(id, { email: newEmail });
     }
 
     private isAdmin(user: User): boolean {
