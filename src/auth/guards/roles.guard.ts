@@ -7,6 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { RoleType, Roles as RolesTypeArr } from 'src/types/roles.type';
+import { rootCertificates } from 'tls';
 
 export const ROLES_KEY = 'roles';
 export const Roles = (...roles: RolesTypeArr) => SetMetadata(ROLES_KEY, roles);

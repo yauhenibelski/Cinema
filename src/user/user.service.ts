@@ -55,6 +55,14 @@ export class UserService {
         this.useRepository.update(id, { email: newEmail });
     }
 
+    get(email?: string): Promise<User[]> {
+        if(email) {
+            return this.useRepository.findBy({email})
+        }
+
+        return this.useRepository.find()
+    }
+
     private isAdmin(user: User): boolean {
         return user.roles.includes('admin');
     }
