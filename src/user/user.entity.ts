@@ -1,5 +1,6 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Roles } from 'src/types/roles.type';
 
 @Entity('User')
 export class User {
@@ -13,8 +14,8 @@ export class User {
     @Exclude()
     password: string;
 
-    @Column({ default: false })
-    isAdmin: boolean;
+    @Column('simple-array', {default: 'user'})
+    roles: Roles;
 
     @Column('int', { array: true, default: [] })
     favorites?: string[];
