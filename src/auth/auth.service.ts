@@ -18,11 +18,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) {}
 
-    async getAccessToken(authorizationHeader: string | undefined) {
-        if (!authorizationHeader) {
-            throw new BadRequestException('Please provide access token');
-        }
-
+    async getAccessToken(authorizationHeader: string) {
         const [, token] = authorizationHeader.split(' ');
         const result = await this.jwtService.verifyAsync(token);
 
@@ -63,7 +59,9 @@ export class AuthService {
         const accessToken = await this.jwtService.signAsync(id, {
             expiresIn: '1h',
         });
-        const refreshToken = await this.jwtService.signAsync(id);
+        const refreshToken = await this.jwtService.signAsync(id, {
+            expiresIn: '7d',
+        });
 
         return {
             accessToken,

@@ -10,8 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthDto } from './auth.dto';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '@nestjs/passport';
-import { Roles, RolesGuard } from './guards/roles.guard';
+import { RolesGuard } from './guards/roles.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -30,9 +29,8 @@ export class AuthController {
     }
 
     @Get('access')
-    @Roles('user', 'admin')
     @UseGuards(RolesGuard)
-    async getAccessToken(@Headers() headers: { authorization?: string }) {
-        return this.authService.getAccessToken(headers['authorization']);
+    async getAccessToken(@Headers() headers: { authorization: string }) {
+        return this.authService.getAccessToken(headers.authorization);
     }
 }

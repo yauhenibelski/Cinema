@@ -14,7 +14,7 @@ export class User {
     @Exclude()
     password: string;
 
-    @Column('simple-array', {default: 'user'})
+    @Column('simple-array', { default: 'user' })
     roles: Roles;
 
     @Column('int', { array: true, default: [] })
