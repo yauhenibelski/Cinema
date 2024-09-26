@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { FindManyOptions, Repository } from 'typeorm';
+import { FindManyOptions, ILike, Repository } from 'typeorm';
 import { PasswordDto } from './dto/password.dto';
 import { compare, genSalt, hash } from 'bcryptjs';
 import { EmailDto } from './dto/email.dto';
@@ -59,11 +59,12 @@ export class UserService {
         const options: FindManyOptions<User> = {
             select: ['email', 'id', 'favorites'],
         };
-
         if (email) {
-            options.where = {
-                email,
-            };
+            options.where = [
+                {
+                    email: ILike(`%${email}%`),
+                },
+            ];
         }
 
         return this.useRepository.find(options);
