@@ -1,4 +1,4 @@
-import { IsString, IsUUID, MinLength} from 'class-validator';
+import { IsString, IsUUID, MinLength } from 'class-validator';
 export class PasswordDto {
     @IsUUID()
     id: string;
@@ -10,5 +10,4 @@ export class PasswordDto {
     @IsString()
     @MinLength(6)
     newPassword: string;
-
 }

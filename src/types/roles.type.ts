@@ -1,3 +1,3 @@
-export type RoleType = 'admin' | 'user'
+export type RoleType = 'admin' | 'user';
 
-export type Roles =  [RoleType, RoleType?]
+export type Roles = [RoleType, RoleType?];

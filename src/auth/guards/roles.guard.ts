@@ -7,7 +7,6 @@ import {
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { RoleType, Roles as RolesTypeArr } from 'src/types/roles.type';
-import { rootCertificates } from 'tls';
 
 export const ROLES_KEY = 'roles';
 export const Roles = (...roles: RolesTypeArr) => SetMetadata(ROLES_KEY, roles);
@@ -20,21 +19,21 @@ export class RolesGuard extends AuthGuard('jwt') implements CanActivate {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const isAuthenticated = await super.canActivate(context);
-    
+
         if (!isAuthenticated) {
             return false;
         }
         const requiredRoles = this.reflector.getAllAndOverride(ROLES_KEY, [
             context.getHandler(),
-            context.getClass()
+            context.getClass(),
         ]);
-        
+
         if (!requiredRoles) {
             return true;
         }
 
         const { user } = context.switchToHttp().getRequest();
-    
+
         return requiredRoles.some((role: RoleType) =>
             user.roles?.includes(role),
         );

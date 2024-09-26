@@ -1,4 +1,4 @@
-import { IsEmail, IsUUID } from "class-validator";
+import { IsEmail, IsUUID } from 'class-validator';
 
 export class EmailDto {
     @IsUUID()
@@ -6,7 +6,7 @@ export class EmailDto {
 
     @IsEmail()
     currentEmail: string;
-    
+
     @IsEmail()
-    newEmail:string;
+    newEmail: string;
 }
